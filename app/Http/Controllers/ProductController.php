@@ -12,7 +12,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::with('category')->paginate(25);
+        $products = Product::with('stocks')->paginate(25);
         return response()->json([
             'products' => ProductResource::collection($products),
             'links' => [
