@@ -37,11 +37,11 @@ class SendSmsToMail extends Mailable
      */
     public function content(): Content
     {
-        $link = 'http://localhost:8000/verify?token=' . $this->user->verification_token;
+        $link = 'http://localhost:8000/api/verify?token=' . $this->user->verification_token;
         return new Content(
             view: 'email.send',
             with:[
-                'name' => $this->user->name,
+                'name' => $this->user->first_name,
                 'link' => $link
             ]
         );
