@@ -14,34 +14,34 @@ class CategorySeeder extends Seeder
     {
         $data = [
             [
-                'name' => json_encode([
+                'name' => [
                     'uz' => 'Stul',
                     'ru' => 'Стул'
-                ])
+                ]
             ],
             [
-                'name' => json_encode([
+                'name' => [
                     'uz' => 'Divan',
                     'ru' => 'Диван'
-                ])
+                ]
             ],
             [
-                'name' => json_encode([
+                'name' => [
                     'uz' => 'Kreslo',
                     'ru' => 'Кресло'
-                ])
+                ]
             ],
             [
-                'name' => json_encode([
+                'name' => [
                     'uz' => 'Stol',
                     'ru' => 'Стол'
-                ])
+                ]
             ],
             [
-                'name' => json_encode([
+                'name' => [
                     'uz' => 'Krovat',
                     'ru' => 'Кровать'
-                ])
+                ]
             ],
         ];
 
