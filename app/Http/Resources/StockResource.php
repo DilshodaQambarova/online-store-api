@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Value;
+use App\Models\Attribute;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -14,22 +16,20 @@ class StockResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $attributes = json_decode($this->attributes, true);
-        return [
-            'id' => $this->id,
-            'attributes' => [
-
-                [
-                    'attribute_id' => $attributes[0]['attribute_id'],
-                    'value_id' => $attributes[0]['value_id'],
-                ],
-                [
-                    'attribute_id' => $attributes[1]['attribute_id'],
-                    'value_id' => $attributes[1]['value_id'],
-                ],
-            ],
-
+        $result =  [
             'quantity' => $this->quantity
         ];
+
+        return $this->getAttributes($result);
+    }
+    public function getAttributes(array $result){
+        $attributes = json_decode($this->attributes);
+
+        foreach($attributes as $stockAttribute){
+            $attribute = Attribute::find($stockAttribute->attribute_id);
+            $value = Value::find($stockAttribute->value_id);
+            $result[$attribute->name] = $value->getTranslations('name');
+        }
+        return $result;
     }
 }
