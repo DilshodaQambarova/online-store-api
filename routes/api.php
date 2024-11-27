@@ -7,15 +7,17 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryProductController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-Route::apiResources([
-    '/categories' => CategoryController::class,
-    '/products' => ProductController::class,
-    '/categories/{id}/products' => CategoryProductController::class
-]);
+Route::middleware('auth:sanctum')->group(function(){
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::apiResources([
+        '/categories' => CategoryController::class,
+        '/products' => ProductController::class,
+        '/categories/{id}/products' => CategoryProductController::class
+    ]);
+    Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+});
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
-Route::get('verify', [AuthController::class, 'verifyEmail']);
+Route::get('/verify', [AuthController::class, 'verifyEmail']);
