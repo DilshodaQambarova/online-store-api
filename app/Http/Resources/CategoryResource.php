@@ -14,11 +14,9 @@ class CategoryResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        $name = json_decode($this->name);
         return [
             'id' => $this->id,
-            'name_uz' => $name->uz,
-            'name_ru' => $name->ru,
+            'name' => $this->getTranslations('name'),
             'products' => ProductResource::collection($this->whenLoaded('products'))
         ];
     }
