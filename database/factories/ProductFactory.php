@@ -17,15 +17,15 @@ class ProductFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => json_encode([
+            'name' => [
                 'uz' => $this->faker->word,
                 'ru' => 'Спальной мебели',
-            ]),
+            ],
             'price' => $this->faker->randomFloat(2, 10, 100),
-            'description' => json_encode([
+            'description' => [
                 'uz' => $this->faker->paragraph(5),
                 'ru' => 'Все размеры, цвета и материалы могут быть изменены по Вашему желанию!Изготовление и доставка составляет от 5 до 20 рабочих дней.Бесплатная доставка и установка.',
-            ]),
+            ],
             'category_id' => rand(1, 5),
             'created_at' => now(),
             'updated_at' => now(),
