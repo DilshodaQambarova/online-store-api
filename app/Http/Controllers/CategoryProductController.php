@@ -17,7 +17,7 @@ class CategoryProductController extends Controller
     $products = $category->products()->paginate(10);
 
     return response()->json([
-        'category' => new CategoryResource($category->load('productsd')),
+        'category' => new CategoryResource($category->load('products')),
         'links' => [
             'first' => $products->url(1),
             'last' => $products->url($products->lastPage()),
