@@ -6,17 +6,17 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryProductController;
+use App\Http\Controllers\FavoriteController;
 
 Route::middleware('auth:sanctum')->group(function(){
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    Route::get('/user', [AuthController::class, 'getUser']);
     Route::apiResources([
         '/categories' => CategoryController::class,
         '/products' => ProductController::class,
-        '/categories/{id}/products' => CategoryProductController::class
+        '/favorites' => FavoriteController::class
     ]);
-    Route::get('/logout', [AuthController::class, 'logout'])->middleware('auth:sanctum');
+    Route::get('/categories/{id}/products', [CategoryProductController::class, 'index']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
