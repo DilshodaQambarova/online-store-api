@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Jobs\SendEmailJob;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Seeder;
@@ -14,14 +15,17 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
+        User::factory()->count(10)->create();
+
+        $user = User::create([
             'role_id' => 1,
             'first_name' => 'Admin',
             'last_name' => 'Admin',
-            'email' => 'dilshoda867@gmail.com',
+            'email' => 'qambarovadilshoda867@gmail.com',
             'verification_token' => uniqid(),
-            'phone' => +998770692029,
+            'phone' => fake()->phoneNumber(),
             'password' => bcrypt('admin123')
         ]);
+        SendEmailJob::dispatch($user);
     }
 }
