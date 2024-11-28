@@ -11,7 +11,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,11 @@ class StoreOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'comment' => 'nullable|string|max:225',
+            'delivery_method_id' => 'required',
+            'payment_type_id' => 'required',
+            'products' => 'required',
+            'sum' => 'required|numeric'
         ];
     }
 }
