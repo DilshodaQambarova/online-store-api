@@ -1,5 +1,9 @@
 <?php
 
+use App\Http\Controllers\DeliveryMethodController;
+use App\Http\Controllers\PaymentTypeController;
+use App\Http\Controllers\UserAddressController;
+use App\Http\Controllers\UserPaymentCardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
@@ -15,7 +19,11 @@ Route::middleware('auth:sanctum')->group(function(){
         '/categories' => CategoryController::class,
         '/products' => ProductController::class,
         '/favorites' => FavoriteController::class,
-        '/orders' => OrderController::class
+        '/orders' => OrderController::class,
+        '/delivery-methods' => DeliveryMethodController::class,
+        '/user-payment-cards' => UserPaymentCardController::class,
+        '/payment-types' => PaymentTypeController::class,
+        '/user-addresses' => UserAddressController::class
     ]);
     Route::get('/categories/{id}/products', [CategoryProductController::class, 'index']);
     Route::get('/logout', [AuthController::class, 'logout']);
