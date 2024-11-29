@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
+use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
@@ -14,19 +16,23 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Order::all();
+        return Auth::user()->orders;
     }
 
 
     public function store(StoreOrderRequest $request)
     {
+        $sum = 0;
+        $products = Product::query()->limit(2)->get();
+        $address = UserAddress::findOrFail($request->address_id);
         $order = new Order();
         $order->user_id = Auth::id();
         $order->payment_type_id = $request->payment_type_id;
         $order->delivery_method_id = $request->delivery_method_id;
         $order->comment = $request->comment;
-        $order->sum = $request->sum;
-        $order->products = json_encode($request->products);
+        $order->sum = $sum;
+        $order->products = $products;
+        $order->address = $address;
         $order->save();
 
         return response()->json([
