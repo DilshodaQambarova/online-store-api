@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\Product;
 use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OrderResource;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 
@@ -16,7 +17,8 @@ class OrderController extends Controller
      */
     public function index()
     {
-        return Auth::user()->orders;
+        $orders = Auth::user()->orders;
+        return OrderResource::collection($orders->load('paymentType', 'deliveryMethod', 'user'));
     }
 
 
@@ -46,7 +48,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        //
+        return $order;
     }
 
 
