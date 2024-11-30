@@ -17,6 +17,7 @@ return new class extends Migration
             $table->text('estimated_time');
             $table->unsignedBigInteger('price');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
