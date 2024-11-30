@@ -25,46 +25,37 @@ class AuthController extends Controller
 
         SendEmailJob::dispatch($user);
 
-        return response()->json([
-            'message' => 'User registered successfully'
-        ], 201);
+        return $this->success([],'User registered successfully', 201);
     }
     public function login(LoginRequest $request){
         $user = User::where('email', $request->email)->first();
         if(!$user || !Hash::check($request->password, $user->password)){
-            return response()->json([
-                'message' => 'User not found or password is incorrect'
-            ], 404);
+            return $this->error('User not found or password is incorrect', 404);
         }
         if($user->email_verified_at == null){
-            return response()->json([
-                'message' => 'Email not verified'
-            ], 403);
+            return $this->error('Email not verified', 403);
         }
         $token = $user->createToken($user->first_name)->plainTextToken;
-        return response()->json([
-            'message' => 'User logged successfully',
-            'token' => $token
-        ]);
+        return $this->success($token, 'User logged successfully');
     }
     public function logout(Request $request){
         $request->user()->tokens()->delete();
-        return response()->json([
-            'message' => 'User logged out successfully'
-        ], 204);
+        return $this->success([], 'User logged out successfully', 204);
     }
     public function verifyEmail(Request $request) {
-        $user = User::where('verification_token', $request->token)->firstOrFail();
+        $user = User::where('verification_token', $request->token)->first();
+        if(!$user){
+            return $this->error('User not found', 404);
+        }
         $user->email_verified_at = now();
         $user->save();
-        return response()->json([
-            'message' => 'Email verified successfully'
-        ]);
+        return $this->success([], 'Email verified successfully');
     }
     public function getUser(Request $request){
         $user = $request->user();
-        return response()->json([
-            'user' => new UserResource($user)
-        ]);
+        if(!$user){
+            return $this->error('User not found', 404);
+        }
+        return $this->success(new UserResource($user));
     }
 }
