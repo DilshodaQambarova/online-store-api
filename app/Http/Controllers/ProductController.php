@@ -13,24 +13,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('stocks')->paginate(25);
-        return response()->json([
-            'products' => ProductResource::collection($products),
-            'links' => [
-                'first' => $products->url(1),
-                'last' => $products->url($products->lastPage()),
-                'prev' => $products->previousPageUrl(),
-                'next' => $products->nextPageUrl(),
-            ],
-            'meta' => [
-                'current_page' => $products->currentPage(),
-                'from' => $products->firstItem(),
-                'last_page' => $products->lastPage(),
-                'path' => $products->path(),
-                'per_page' => $products->perPage(),
-                'to' => $products->lastItem(),
-                'total' => $products->total(),
-            ],
-        ]);
+        return $this->responsePagination($products, ProductResource::collection($products));
     }
 
     public function store(StoreProductRequest $request)
@@ -43,7 +26,11 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        return Product::with('stocks', 'category')->findOrFail($id);
+        $product = Product::with('stocks', 'category')->find($id);
+        if(!$product){
+            return $this->error('Product not found', 404);
+        }
+        return $this->success(new ProductResource($product));
     }
 
     public function update(UpdateProductRequest $request, Product $product)
