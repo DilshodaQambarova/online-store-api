@@ -13,7 +13,8 @@ class UserAddressController extends Controller
 
     public function index()
     {
-        return Auth::user()->addresses;
+        $addresses = Auth::user()->addresses;
+        return $this->success(AddressResource::collection($addresses));
     }
 
 
