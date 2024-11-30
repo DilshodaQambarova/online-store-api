@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PaymentType;
+use App\Http\Resources\PaymentTypeResource;
 use App\Http\Requests\StorePaymentTypeRequest;
 use App\Http\Requests\UpdatePaymentTypeRequest;
 
@@ -13,7 +14,8 @@ class PaymentTypeController extends Controller
      */
     public function index()
     {
-        return PaymentType::all();
+        $paymentTypes = PaymentType::all();
+        return $this->success(PaymentTypeResource::collection($paymentTypes));
     }
 
     /**
