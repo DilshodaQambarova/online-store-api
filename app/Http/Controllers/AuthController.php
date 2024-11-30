@@ -41,7 +41,7 @@ class AuthController extends Controller
                 'message' => 'Email not verified'
             ], 403);
         }
-        $token = $user->createToken('login')->plainTextToken;
+        $token = $user->createToken($user->first_name)->plainTextToken;
         return response()->json([
             'message' => 'User logged successfully',
             'token' => $token
