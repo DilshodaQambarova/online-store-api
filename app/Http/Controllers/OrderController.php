@@ -48,7 +48,7 @@ class OrderController extends Controller
      */
     public function show(Order $order)
     {
-        return $order;
+        return new OrderResource($order->load('user', 'deliveryMethod', 'paymentType'));
     }
 
 
