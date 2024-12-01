@@ -31,9 +31,20 @@ class UserAddressController extends Controller
     }
 
 
-    public function update(UpdateUserAddressRequest $request, UserAddress $userAddress)
+    public function update(UpdateUserAddressRequest $request, $id)
     {
-        //
+        $userAddress = UserAddress::find($id);
+        if(!$userAddress){
+            return $this->error('This address not found', 404);
+        }
+        $userAddress->latitude = $request->latitude;
+        $userAddress->longitude = $request->longitude;
+        $userAddress->region = $request->region;
+        $userAddress->district = $request->district;
+        $userAddress->street = $request->street;
+        $userAddress->home = $request->home;
+        $userAddress->save();
+        return $this->success(new AddressResource($userAddress), 'Address updated');
     }
 
     public function destroy(UserAddress $userAddress)
