@@ -40,9 +40,18 @@ class ProductController extends Controller
         return $this->success(new ProductResource($product));
     }
 
-    public function update(UpdateProductRequest $request, Product $product)
+    public function update(UpdateProductRequest $request, $id)
     {
-
+        $product = Product::find($id);
+        if(!$product){
+            return $this->error('Product not found', 404);
+        }
+        $product->category_id = $request->category_id;
+        $product->name = $request->name;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->save();
+        return $this->success($product, 'Product updated');
     }
 
     public function destroy(Product $product)
