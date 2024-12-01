@@ -47,8 +47,13 @@ class UserAddressController extends Controller
         return $this->success(new AddressResource($userAddress), 'Address updated');
     }
 
-    public function destroy(UserAddress $userAddress)
+    public function destroy($id)
     {
-        //
+        $userAddress = UserAddress::find($id);
+        if(!$userAddress){
+            return $this->error('Address not found', 404);
+        }
+        $userAddress->delete();
+        return $this->success([], 'Address deleted', 204);
     }
 }
