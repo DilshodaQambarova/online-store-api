@@ -54,8 +54,13 @@ class ProductController extends Controller
         return $this->success($product, 'Product updated');
     }
 
-    public function destroy(Product $product)
+    public function destroy($id)
     {
-
+        $product = Product::find($id);
+        if(!$product){
+            return $this->error('Product not found', 404);
+        }
+        $product->delete();
+        return $this->success([], 'Product deleted', 204);
     }
 }
