@@ -32,7 +32,7 @@ class OrderController extends Controller
         $order->payment_type_id = $request->payment_type_id;
         $order->delivery_method_id = $request->delivery_method_id;
         $order->comment = $request->comment;
-        $order->sum = $sum;
+        $order->summ = $sum;
         $order->products = $products;
         $order->address = $address;
         $order->save();
@@ -52,7 +52,6 @@ class OrderController extends Controller
 
     public function update(UpdateOrderRequest $request, $id)
     {
-        $sum = 0;
         $products = Product::query()->limit(2)->get();
         $address = UserAddress::findOrFail($request->address_id);
 
@@ -63,7 +62,7 @@ class OrderController extends Controller
         $order->payment_type_id = $request->payment_type_id;
         $order->delivery_method_id = $request->delivery_method_id;
         $order->comment = $request->comment;
-        $order->sum = $sum;
+        $order->summ = $request->summ;
         $order->products = $products;
         $order->address = $address;
         $order->save();
