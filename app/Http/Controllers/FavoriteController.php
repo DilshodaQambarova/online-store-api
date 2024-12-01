@@ -26,7 +26,7 @@ class FavoriteController extends Controller
             'product_id' => 'required|exists:products,id'
         ]);
         $id = $request->product_id;
-        $favorites = Auth()->user()->favorites();
+        $favorites = Auth::user()->favorites();
         $favorites->attach($id);
         return $this->success([], 'Product added to favorites', 201);
     }
@@ -36,7 +36,11 @@ class FavoriteController extends Controller
      */
     public function show(string $id)
     {
-        //
+       $favorite = Auth::user()->favorites()->find($id);
+       if(!$favorite){
+        return $this->error('Product not found', 404);
+       }
+       return $this->success(new ProductResource($favorite));
     }
 
     /**
