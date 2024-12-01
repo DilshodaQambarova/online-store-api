@@ -37,9 +37,7 @@ class OrderController extends Controller
         $order->address = $address;
         $order->save();
 
-        return response()->json([
-            'message' => 'Order created'
-        ], 201);
+        return $this->success(new OrderResource($order), 'Order created', 201);
 
     }
 
@@ -60,8 +58,8 @@ class OrderController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Order $order)
+    public function destroy($id)
     {
-        //
+        
     }
 }
