@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\DeliveryMethodResource;
 use App\Models\DeliveryMethod;
 use App\Http\Requests\StoreDeliveryMethodRequest;
 use App\Http\Requests\UpdateDeliveryMethodRequest;
@@ -13,7 +14,8 @@ class DeliveryMethodController extends Controller
      */
     public function index()
     {
-        return DeliveryMethod::all();
+        $deliveryMethods = DeliveryMethod::paginate(5);
+        return $this->responsePagination($deliveryMethods, DeliveryMethodResource::collection($deliveryMethods));
     }
 
     /**
