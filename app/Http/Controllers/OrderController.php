@@ -50,9 +50,26 @@ class OrderController extends Controller
     }
 
 
-    public function update(UpdateOrderRequest $request, Order $order)
+    public function update(UpdateOrderRequest $request, $id)
     {
-        //
+        $sum = 0;
+        $products = Product::query()->limit(2)->get();
+        $address = UserAddress::findOrFail($request->address_id);
+
+        $order = Order::find($id);
+        if(!$order){
+            return $this->error('Order not found', 404);
+        }
+        $order->payment_type_id = $request->payment_type_id;
+        $order->delivery_method_id = $request->delivery_method_id;
+        $order->comment = $request->comment;
+        $order->sum = $sum;
+        $order->products = $products;
+        $order->address = $address;
+        $order->save();
+
+        return $this->success(new OrderResource($order), 'Order updated');
+
     }
 
     /**
@@ -60,6 +77,6 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-        
+
     }
 }
