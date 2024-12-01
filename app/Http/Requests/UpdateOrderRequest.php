@@ -27,7 +27,7 @@ class UpdateOrderRequest extends FormRequest
             'delivery_method_id' => 'required|numeric',
             'payment_type_id' => 'required|numeric',
             'products' => 'required',
-            'sum' => 'required|numeric'
+            'summ' => 'required|numeric'
         ];
     }
 }
