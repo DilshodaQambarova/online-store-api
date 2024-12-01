@@ -30,7 +30,7 @@ class StoreOrderRequest extends FormRequest
             // 'products.*.product_id' => 'required|numeric',
             // 'products.*.quantity' => 'required|numeric',
             // 'products.*.stock_id' => 'nullable|numeric',
-            'sum' => 'required|numeric'
+            'summ' => 'required|numeric'
         ];
     }
 }
