@@ -11,7 +11,7 @@ class UpdateOrderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,12 @@ class UpdateOrderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'address_id' => 'required',
+            'comment' => 'nullable|string|max:225',
+            'delivery_method_id' => 'required|numeric',
+            'payment_type_id' => 'required|numeric',
+            'products' => 'required',
+            'sum' => 'required|numeric'
         ];
     }
 }
