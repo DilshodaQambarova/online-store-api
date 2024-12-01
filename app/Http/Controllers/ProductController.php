@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
@@ -18,12 +19,18 @@ class ProductController extends Controller
 
     public function store(StoreProductRequest $request)
     {
-        //
+        $category = Category::find($request->category_id);
+        if(!$category){
+            return $this->error('Category not found', 404);
+        }
+        $product = $category->products()->create([
+            'category_id' => $category->id,
+            'name' => $request->name,
+            'description' => $request->description
+        ]);
+        return $this->success($product, 'Product Created', 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show($id)
     {
         $product = Product::with('stocks', 'category')->find($id);
@@ -35,11 +42,11 @@ class ProductController extends Controller
 
     public function update(UpdateProductRequest $request, Product $product)
     {
-        //
+
     }
 
     public function destroy(Product $product)
     {
-        //
+
     }
 }
