@@ -39,9 +39,9 @@ class Product extends Model
     }
     public function withStock($stockId)
     {
-        $this->stocks = [
-            $this->stocks()->findOrFail($stockId)
+        $stocks = [
+            Stock::findOrFail($stockId)
         ];
-        return $this;
+        return $stocks;
     }
 }
