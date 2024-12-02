@@ -18,7 +18,7 @@ class OrderResource extends JsonResource
         return [
             'id' => $this->id,
             'comment' => $this->comment,
-            'sum' => $this->sum,
+            'summ' => $this->sum,
             'address' => new AddressResource($address),
             'user' => new UserResource($this->whenLoaded('user')),
             'delivery_method' => new DeliveryMethodResource($this->whenLoaded('deliveryMethod')),
