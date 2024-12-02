@@ -29,17 +29,17 @@ class OrderController extends Controller
         $address = UserAddress::findOrFail($request->address_id);
         foreach ($request->products as $product) {
             $prod = Product::with('stocks')->findOrFail($product['product_id']);
-            if (is_array($product) && isset($product['product_id'], $product['stock_id'], $product['quantity'])) {
-
-                if (
-                    $prod->stocks()->find($product['stock_id']) &&
-                    $prod->stocks()->find($product['stock_id'])->quantity >= $product['quantity']
-                ) {
-                   $p = $prod->withStock(6);
-                   return new ProductResource($p);
-                }
-            }
+            // if (
+            //     $prod->stocks()->find($product['stock_id']) &&
+            //     $prod->stocks()->find($product['stock_id'])->quantity >= $product['quantity']
+            // ) {
+                $productWithStock = $prod->withStock($product['stock_id']);
+                $productResource = new ProductResource($productWithStock);
+                $products[] = $productResource->resolve();
+            // }
         }
+        // TODO add status of order
+
         $order = new Order();
         $order->user_id = Auth::id();
         $order->payment_type_id = $request->payment_type_id;
