@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->foreignId('payment_type_id')->constrained();
             $table->foreignId('delivery_method_id')->constrained();
+            $table->foreignId('status_id')->constrained()->cascadeOnDelete();
             $table->string('comment');
             $table->unsignedBigInteger('summ');
             $table->json('products');
