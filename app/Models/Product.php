@@ -23,7 +23,7 @@ class Product extends Model
     ];
     protected $casts = [
         'name' => 'array',
-        'description' => 'array'
+        'description' => 'array',
     ];
     public function category()
     {
@@ -33,7 +33,15 @@ class Product extends Model
     {
         return $this->hasMany(Stock::class);
     }
-    public function users(){
+    public function users()
+    {
         return $this->belongsToMany(User::class);
+    }
+    public function withStock($stockId)
+    {
+        $this->stocks = [
+            $this->stocks()->findOrFail($stockId)
+        ];
+        return $this;
     }
 }
