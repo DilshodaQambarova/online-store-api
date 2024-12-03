@@ -31,7 +31,7 @@ class Product extends Model
     }
     public function stocks()
     {
-        return $this->hasMany(Stock::class);
+        return $this->hasMany(Stock::class, 'product_id');
     }
     public function users()
     {
@@ -39,9 +39,9 @@ class Product extends Model
     }
     public function withStock($stockId)
     {
-        $stocks = [
+        $this->stocks = [
             Stock::findOrFail($stockId)
         ];
-        return $stocks;
+        return $this;
     }
 }
