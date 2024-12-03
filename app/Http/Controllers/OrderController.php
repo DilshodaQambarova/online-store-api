@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreOrderRequest;
-use App\Http\Requests\UpdateOrderRequest;
-use App\Http\Resources\OrderResource;
-use App\Http\Resources\ProductResource;
 use App\Models\Order;
+use App\Models\Stock;
 use App\Models\Product;
 use App\Models\UserAddress;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\OrderResource;
+use App\Http\Resources\ProductResource;
+use App\Http\Requests\StoreOrderRequest;
+use App\Http\Requests\UpdateOrderRequest;
 
 class OrderController extends Controller
 {
@@ -27,16 +28,17 @@ class OrderController extends Controller
         $sum = 0;
         $products = [];
         $address = UserAddress::findOrFail($request->address_id);
-        foreach ($request->products as $product) {
+        foreach ($request['products'] as $product) {
             $prod = Product::with('stocks')->findOrFail($product['product_id']);
-            // if (
-            //     $prod->stocks()->find($product['stock_id']) &&
-            //     $prod->stocks()->find($product['stock_id'])->quantity >= $product['quantity']
-            // ) {
+            $stock = Stock::find($product['stock_id']);
+            // dd($stock);
+            if ($stock && $stock->quantity >= $product['quantity']) {
+
+                // dd($prod);
                 $productWithStock = $prod->withStock($product['stock_id']);
                 $productResource = new ProductResource($productWithStock);
                 $products[] = $productResource->resolve();
-            // }
+            }
         }
         // TODO add status of order
 
