@@ -25,29 +25,28 @@ class OrderController extends Controller
 
     public function store(StoreOrderRequest $request)
     {
-        $sum = 0;
+        $summ = 0;
         $products = [];
         $address = UserAddress::findOrFail($request->address_id);
         foreach ($request['products'] as $product) {
             $prod = Product::with('stocks')->findOrFail($product['product_id']);
             $stock = Stock::find($product['stock_id']);
-            // dd($stock);
+            $prod->quantity = $product->quantity;
             if ($stock && $stock->quantity >= $product['quantity']) {
 
-                // dd($prod);
                 $productWithStock = $prod->withStock($product['stock_id']);
                 $productResource = new ProductResource($productWithStock);
+                $summ += $productResource['price'];
                 $products[] = $productResource->resolve();
             }
         }
         // TODO add status of order
-
         $order = new Order();
         $order->user_id = Auth::id();
         $order->payment_type_id = $request->payment_type_id;
         $order->delivery_method_id = $request->delivery_method_id;
         $order->comment = $request->comment;
-        $order->summ = $sum;
+        $order->summ = $summ;
         $order->products = $products;
         $order->address = $address;
         $order->save();
