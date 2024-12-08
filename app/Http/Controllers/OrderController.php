@@ -90,6 +90,11 @@ class OrderController extends Controller
      */
     public function destroy($id)
     {
-
+        $order = Auth::user()->orders()->find($id);
+        if(!$order){
+            return $this->error('Order not found', 404);
+        }
+        $order->delete();
+        return $this->success([], 'Order deleted successfully', 204);
     }
 }
