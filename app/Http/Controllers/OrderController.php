@@ -55,9 +55,13 @@ class OrderController extends Controller
 
     }
 
-    public function show(Order $order)
+    public function show($id)
     {
-        return new OrderResource($order->load('user', 'deliveryMethod', 'paymentType'));
+        $order = Auth::user()->orders()->find($id);
+        if(!$order){
+            return $this->error('Order not found', 404);
+        }
+        return $this->success(new OrderResource($order->load('user', 'deliveryMethod', 'paymentType')));
     }
 
     public function update(UpdateOrderRequest $request, $id)
