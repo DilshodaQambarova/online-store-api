@@ -23,7 +23,8 @@ class OrderResource extends JsonResource
             'user' => new UserResource($this->whenLoaded('user')),
             'delivery_method' => new DeliveryMethodResource($this->whenLoaded('deliveryMethod')),
             'payment_type' => new PaymentTypeResource($this->whenLoaded('paymentType')),
-            'products' => $this->products
+            'products' => $this->products,
+            'quantity' => $this->when(isset($this->quantity), $this->quantity)
         ];
     }
 }
