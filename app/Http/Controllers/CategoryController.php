@@ -35,9 +35,17 @@ class CategoryController extends Controller
         return $this->success($category);
     }
 
-    public function update(UpdateCategoryRequest $request, Category $category)
+    public function update(UpdateCategoryRequest $request, $id)
     {
-        //
+        $category = Category::find($id);
+        if(!$category){
+            return $this->error('Category not found', 404);
+        }
+        $category->name = $request->name;
+        $category->icon = $request->icon;
+        $category->order = $request->order;
+        $category->save();
+        return $this->success($category, 'Category updated');
     }
 
     /**
