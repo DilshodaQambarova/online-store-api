@@ -20,7 +20,12 @@ class CategoryController extends Controller
 
     public function store(StoreCategoryRequest $request)
     {
-        //
+        $category = new Category();
+        $category->name = $request->name;
+        $category->icon = $request->icon;
+        $category->order = $request->order;
+        $category->save();
+        return $this->success(new CategoryResource($category), 'Category created successfully', 201);
     }
 
     /**
