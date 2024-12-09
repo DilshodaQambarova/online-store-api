@@ -25,9 +25,13 @@ class UserAddressController extends Controller
         return $this->success(new AddressResource($address), 'Address created', 201);
     }
 
-    public function show(UserAddress $userAddress)
+    public function show($id)
     {
-        //
+        $address = UserAddress::find($id);
+        if(!$address){
+            return $this->error('Address not found', 404);
+        }
+        return $this->success($address);
     }
 
 
