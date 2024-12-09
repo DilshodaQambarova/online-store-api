@@ -56,8 +56,13 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy($id)
     {
-        //
+        $category = Category::find($id);
+        if(!$category){
+            return $this->error('Category not found', 404);
+        }
+        $category->delete();
+        return $this->success([], 'Category deleted successfully', 204);
     }
 }
