@@ -24,13 +24,13 @@ class CategoryProductController extends Controller
         $category = new Category();
         $category->name = $request->name;
         $category->save();
-        return $this->success($category, 'Category created successfully', 201);
+        return $this->success(new CategoryResource($category), 'Category created successfully', 201);
     }
     public function update(Request $request, $id){
         $category = Category::findOrFail($id);
         $category->name = $request->name;
         $category->save();
-        return $this->success($category, 'Category update successfully');
+        return $this->success(new CategoryResource($category), 'Category update successfully');
     }
     public function show($id){
         $category = Category::with('products.stocks')->findOrFail($id);
