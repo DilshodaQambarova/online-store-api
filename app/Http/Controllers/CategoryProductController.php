@@ -37,4 +37,9 @@ class CategoryProductController extends Controller
         return $this->success($category);
 
     }
+    public function destroy($id){
+        $category = Category::findOrFail($id);
+        $category->delete();
+        return $this->success([], 'Category deleted successfully', 204);
+    }
 }
