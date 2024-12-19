@@ -26,5 +26,10 @@ class CategoryProductController extends Controller
         $category->save();
         return $this->success($category, 'Category created successfully', 201);
     }
-
+    public function update(Request $request, $id){
+        $category = Category::findOrFail($id);
+        $category->name = $request->name;
+        $category->save();
+        return $this->success($category, 'Category update successfully');
+    }
 }
