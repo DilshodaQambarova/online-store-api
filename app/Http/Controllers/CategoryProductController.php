@@ -32,4 +32,9 @@ class CategoryProductController extends Controller
         $category->save();
         return $this->success($category, 'Category update successfully');
     }
+    public function show($id){
+        $category = Category::with('products.stocks')->findOrFail($id);
+        return $this->success($category);
+
+    }
 }
