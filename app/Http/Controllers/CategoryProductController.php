@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\CategoryResource;
 use App\Models\Category;
+use Illuminate\Http\Request;
+use App\Http\Resources\CategoryResource;
 
 class CategoryProductController extends Controller
 {
@@ -18,6 +19,12 @@ class CategoryProductController extends Controller
             return $this->error('Not found', 404);
         }
         return $this->responsePagination($products, new CategoryResource($category->load('products')));
+    }
+    public function store(Request $request){
+        $category = new Category();
+        $category->name = $request->name;
+        $category->save();
+        return $this->success($category, 'Category created successfully', 201);
     }
 
 }
