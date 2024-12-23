@@ -2,99 +2,100 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Order;
-use App\Models\Stock;
-use App\Models\Product;
-use App\Models\UserAddress;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
+use App\Models\DeliveryMethod;
+use App\Models\Order;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
+use App\Models\Product;
+use App\Models\Stock;
+use App\Models\UserAddress;
+use App\Repositories\OrderRepository;
+use App\Repositories\StockRepository;
+use App\Services\OrderService;
+use App\Services\ProductService;
+use Illuminate\Auth\Access\AuthorizationException;
+use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
+    public function __construct(
+        protected OrderService   $orderService,
+        protected ProductService $productService,
+    )
+    {
+        $this->middleware('auth:sanctum');
+        $this->authorizeResource(Order::class, 'order');
+    }
+
+
+    public function index(): JsonResponse
+    {
+        if (request()->has('status_id')) {
+            return $this->response(OrderResource::collection(auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10)));
+        }
+
+        return $this->response(OrderResource::collection(auth()->user()->orders()->paginate(10)));
+    }
+
+
+    public function store(StoreOrderRequest $request): JsonResponse
+    {
+        // o'zgaruvchilani belgilash
+        list($sum, $products, $notFoundProducts, $address, $deliveryMethod) = $this->defineVariables($request);
+
+        // omborda product bor yo'qligiga tekshirish
+        list($sum, $products, $notFoundProducts) = $this->productService->checkForStock($request['products'], $sum, $products, $notFoundProducts);
+
+        // bor bo'lsa buyurtma yaratish
+        if ($notFoundProducts === [] && $products !== [] && $sum !== 0) {
+            $order = $this->orderService->saveOrder($deliveryMethod, $sum, $request, $address, $products);
+            return $this->success('order created', $order);
+        }
+
+        return $this->error('some products not found or does not have in inventory', ['not_found_products' => $notFoundProducts]);
+    }
+
+
+    public function show(Order $order): JsonResponse
+    {
+        return $this->response(new OrderResource($order));
+    }
+
     /**
-     * Display a listing of the resource.
+     * Show the form for editing the specified resource.
      */
-    public function index()
+    public function edit(Order $order)
     {
-        $orders = Auth::user()->orders;
-        return OrderResource::collection($orders->load('paymentType', 'deliveryMethod', 'user'));
+        //
     }
 
-    public function store(StoreOrderRequest $request)
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateOrderRequest $request, Order $order)
     {
-        $summ = 0;
-        $products = [];
-        $address = UserAddress::findOrFail($request->address_id);
-        foreach ($request['products'] as $product) {
-            $prod = Product::with('stocks')->findOrFail($product['product_id']);
-            $stock = Stock::find($product['stock_id']);
-            $prod->quantity = $product->quantity;
-            if ($stock && $stock->quantity >= $product['quantity']) {
-
-                $productWithStock = $prod->withStock($product['stock_id']);
-                $productResource = new ProductResource($productWithStock);
-                $summ += $productResource['price'];
-                $products[] = $productResource->resolve();
-            }
-        }
-        // TODO add status of order
-        $order = new Order();
-        $order->user_id = Auth::id();
-        $order->payment_type_id = $request->payment_type_id;
-        $order->delivery_method_id = $request->delivery_method_id;
-        $order->comment = $request->comment;
-        $order->summ = $summ;
-        $order->products = $products;
-        $order->address = $address;
-        $order->save();
-
-        return $this->success(new OrderResource($order), 'Order created', 201);
-
-    }
-
-    public function show($id)
-    {
-        $order = Auth::user()->orders()->find($id);
-        if(!$order){
-            return $this->error('Order not found', 404);
-        }
-        return $this->success(new OrderResource($order->load('user', 'deliveryMethod', 'paymentType')));
-    }
-
-    public function update(UpdateOrderRequest $request, $id)
-    {
-        $products = Product::query()->limit(2)->get();
-        $address = UserAddress::findOrFail($request->address_id);
-
-        $order = Order::find($id);
-        if (!$order) {
-            return $this->error('Order not found', 404);
-        }
-        $order->payment_type_id = $request->payment_type_id;
-        $order->delivery_method_id = $request->delivery_method_id;
-        $order->comment = $request->comment;
-        $order->summ = $request->summ;
-        $order->products = $products;
-        $order->address = $address;
-        $order->save();
-
-        return $this->success(new OrderResource($order), 'Order updated');
-
+        //
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(Order $order)
     {
-        $order = Auth::user()->orders()->find($id);
-        if(!$order){
-            return $this->error('Order not found', 404);
-        }
         $order->delete();
-        return $this->success([], 'Order deleted successfully', 204);
+        return 1;
+    }
+
+
+    public function defineVariables(StoreOrderRequest $request): array
+    {
+        $sum = 0;
+        $products = [];
+        $notFoundProducts = [];
+        $address = UserAddress::find($request->address_id);
+        $deliveryMethod = DeliveryMethod::findOrFail($request->delivery_method_id);
+        return array($sum, $products, $notFoundProducts, $address, $deliveryMethod);
     }
 }
