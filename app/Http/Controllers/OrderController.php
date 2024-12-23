@@ -33,10 +33,10 @@ class OrderController extends Controller
     public function index(): JsonResponse
     {
         if (request()->has('status_id')) {
-            return $this->response(OrderResource::collection(auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10)));
+            return $this->responsePagination(OrderResource::collection(auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10)));
         }
 
-        return $this->response(OrderResource::collection(auth()->user()->orders()->paginate(10)));
+        return $this->responsePagination(OrderResource::collection(auth()->user()->orders()->paginate(10)));
     }
 
 
@@ -54,13 +54,13 @@ class OrderController extends Controller
             return $this->success('order created', $order);
         }
 
-        return $this->error('some products not found or does not have in inventory', ['not_found_products' => $notFoundProducts]);
+        return $this->error('some products not found or does not have in inventory', 404);
     }
 
 
     public function show(Order $order): JsonResponse
     {
-        return $this->response(new OrderResource($order));
+        return $this->success(new OrderResource($order));
     }
 
     /**
