@@ -15,11 +15,6 @@ class RoleController extends Controller
         return $this->success($roles);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(StoreRoleRequest $request)
     {
         //
@@ -30,14 +25,12 @@ class RoleController extends Controller
         //
     }
 
-    public function edit(Role $role)
+    public function update(UpdateRoleRequest $request, Role $id)
     {
-        //
-    }
-
-    public function update(UpdateRoleRequest $request, Role $role)
-    {
-        //
+        $role = Role::findOrFail($id);
+        $role->name = $request->name;
+        $role->save();
+        return $this->success($role, 'Role updated successfully');
     }
 
 
