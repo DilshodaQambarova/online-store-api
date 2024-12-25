@@ -15,7 +15,7 @@ class CategoryController extends Controller
     public function index()
     {
         $categories = Category::paginate(10);
-        return $this->responsePagination($categories, CategoryResource::collection($categories));
+        return $this->success(CategoryResource::collection($categories));
     }
 
     public function store(StoreCategoryRequest $request)
