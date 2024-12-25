@@ -45,8 +45,10 @@ class PaymentTypeController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(PaymentType $paymentType)
+    public function destroy($id)
     {
-        //
+        $paymentType = PaymentType::findOrFail($id);
+        $paymentType->delete();
+        return $this->success([], 'Payment type deleted successfully', 204);
     }
 }
