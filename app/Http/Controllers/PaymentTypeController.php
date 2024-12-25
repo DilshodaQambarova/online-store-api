@@ -33,7 +33,11 @@ class PaymentTypeController extends Controller
 
     public function update(UpdatePaymentTypeRequest $request, $id)
     {
-        
+        $paymentType = PaymentType::findOrFail($id);
+        $paymentType->name = $request->name;
+        $paymentType->save();
+
+        return $this->success(new PaymentTypeResource($paymentType), 'Payment type updated successfully');
 
     }
 
