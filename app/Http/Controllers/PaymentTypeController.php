@@ -26,9 +26,10 @@ class PaymentTypeController extends Controller
         return $this->success(new PaymentTypeResource($paymentType), 'Payment type created successfully', 201);
     }
 
-    public function show(PaymentType $paymentType)
+    public function show($id)
     {
-        //
+        $paymentType = PaymentType::findOrFail($id);
+        return $this->success(new PaymentTypeResource($paymentType));
     }
 
     public function update(UpdatePaymentTypeRequest $request, $id)
