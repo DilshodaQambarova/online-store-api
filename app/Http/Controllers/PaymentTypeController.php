@@ -18,44 +18,23 @@ class PaymentTypeController extends Controller
         return $this->success(PaymentTypeResource::collection($paymentTypes));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StorePaymentTypeRequest $request)
     {
-        //
+        $paymentType = new PaymentType();
+        $paymentType->name = $request->name;
+        $paymentType->save();
+        return $this->success(new PaymentTypeResource($paymentType), 'Payment type created successfully', 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(PaymentType $paymentType)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(PaymentType $paymentType)
+    public function update(UpdatePaymentTypeRequest $request, $id)
     {
-        //
-    }
+        
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdatePaymentTypeRequest $request, PaymentType $paymentType)
-    {
-        //
     }
 
     /**
