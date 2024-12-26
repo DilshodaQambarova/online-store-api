@@ -36,9 +36,14 @@ class DeliveryMethodController extends Controller
     }
 
 
-    public function update(UpdateDeliveryMethodRequest $request, DeliveryMethod $deliveryMethod)
+    public function update(UpdateDeliveryMethodRequest $request,  $id)
     {
-        //
+        $deliveryMethod = DeliveryMethod::findOrFail($id);
+        $deliveryMethod->name = $request->name;
+        $deliveryMethod->estimated_time = $request->estimated_time;
+        $deliveryMethod->price = $request->price;
+        $deliveryMethod->save();
+        return $this->success(new DeliveryMethodResource( $deliveryMethod), 'Delivery method updated successfully');
     }
 
     public function destroy(DeliveryMethod $deliveryMethod)
