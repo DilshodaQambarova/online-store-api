@@ -18,20 +18,14 @@ class DeliveryMethodController extends Controller
         return $this->responsePagination($deliveryMethods, DeliveryMethodResource::collection($deliveryMethods));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreDeliveryMethodRequest $request)
     {
-        //
+        $deliveryMethod = new DeliveryMethod();
+        $deliveryMethod->name = $request->name;
+        $deliveryMethod->estimated_time = $request->estimated_time;
+        $deliveryMethod->price = $request->price;
+        $deliveryMethod->save();
+        return $this->success(new DeliveryMethodResource( $deliveryMethod), 'Delivery method created successfully', 201);
     }
 
     /**
