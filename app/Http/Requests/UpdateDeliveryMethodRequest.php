@@ -11,7 +11,7 @@ class UpdateDeliveryMethodRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class UpdateDeliveryMethodRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'nullable',
+            'estimated_time' => 'nullable|date',
+            'price' => 'nullable|decimal:1,500'
         ];
     }
 }
