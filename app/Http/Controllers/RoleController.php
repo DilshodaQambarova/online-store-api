@@ -24,9 +24,10 @@ class RoleController extends Controller
         return $this->success($role, 'ROle Created successfully', 201);
     }
 
-    public function show(Role $role)
+    public function show($id)
     {
-        //
+        $role = Role::findOrFail($id);
+        return $this->success($role);
     }
 
     public function update(UpdateRoleRequest $request, Role $id)
