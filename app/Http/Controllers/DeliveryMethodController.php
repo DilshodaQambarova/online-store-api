@@ -28,33 +28,19 @@ class DeliveryMethodController extends Controller
         return $this->success(new DeliveryMethodResource( $deliveryMethod), 'Delivery method created successfully', 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(DeliveryMethod $deliveryMethod)
+
+    public function show( $id)
     {
-        //
+        $deliveryMethod = DeliveryMethod::findOrFail($id);
+        return $this->success( $deliveryMethod);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(DeliveryMethod $deliveryMethod)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateDeliveryMethodRequest $request, DeliveryMethod $deliveryMethod)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(DeliveryMethod $deliveryMethod)
     {
         //
