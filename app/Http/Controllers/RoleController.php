@@ -17,7 +17,11 @@ class RoleController extends Controller
 
     public function store(StoreRoleRequest $request)
     {
-        //
+        $role = new Role();
+        $role->name = $request->name;
+        $role->save();
+
+        return $this->success($role, 'ROle Created successfully', 201);
     }
 
     public function show(Role $role)
