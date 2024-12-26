@@ -46,8 +46,10 @@ class DeliveryMethodController extends Controller
         return $this->success(new DeliveryMethodResource( $deliveryMethod), 'Delivery method updated successfully');
     }
 
-    public function destroy(DeliveryMethod $deliveryMethod)
+    public function destroy( $id)
     {
-        //
+        $deliveryMethod = DeliveryMethod::findOrFail($id);
+        $deliveryMethod->delete();
+        return $this->success([], 'Delivery method deleted successfully', 204);
     }
 }
