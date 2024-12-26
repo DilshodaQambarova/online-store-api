@@ -11,7 +11,7 @@ class StoreDeliveryMethodRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,9 @@ class StoreDeliveryMethodRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'name' => 'required',
+            'estimated_time' => 'required|date',
+            'price' => 'required|decimal:1,500'
         ];
     }
 }
