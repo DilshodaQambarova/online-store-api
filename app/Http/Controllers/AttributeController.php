@@ -8,25 +8,17 @@ use App\Http\Requests\UpdateAttributeRequest;
 
 class AttributeController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
     public function index()
     {
-        //
+        $attributes = Attribute::all();
+        return $this->responsePagination($attributes, $attributes);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(StoreAttributeRequest $request)
     {
         //
