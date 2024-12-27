@@ -63,17 +63,6 @@ class OrderController extends Controller
         return $this->success(new OrderResource($order));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Order $order)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
     public function update(UpdateOrderRequest $request, Order $order)
     {
         //
