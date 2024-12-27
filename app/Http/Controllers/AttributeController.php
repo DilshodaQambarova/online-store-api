@@ -14,19 +14,14 @@ class AttributeController extends Controller
         return $this->responsePagination($attributes, $attributes);
     }
 
-    public function create()
-    {
-        //
-    }
-
     public function store(StoreAttributeRequest $request)
     {
-        //
+        $attribute = new Attribute();
+        $attribute->name = $request->name;
+        $attribute->save();
+        return $this->success($attribute, 'Attribute created successfully', 201);
     }
 
-    /**
-     * Display the specified resource.
-     */
     public function show(Attribute $attribute)
     {
         //
