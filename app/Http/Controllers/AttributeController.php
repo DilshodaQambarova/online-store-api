@@ -37,11 +37,10 @@ class AttributeController extends Controller
         return $this->success($attribute, 'Attribute updated succesfully');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Attribute $attribute)
+    public function destroy( $id)
     {
-        //
+        $attribute = Attribute::findOrFail($id);
+        $attribute->delete();
+        return $this->success([], 'Attribute updated successfully', 204);
     }
 }
