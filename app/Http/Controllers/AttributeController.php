@@ -22,9 +22,10 @@ class AttributeController extends Controller
         return $this->success($attribute, 'Attribute created successfully', 201);
     }
 
-    public function show(Attribute $attribute)
+    public function show( $id)
     {
-        //
+        $attribute = Attribute::findOrFail($id);
+        return $this->success($attribute);
     }
 
     /**
