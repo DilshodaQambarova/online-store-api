@@ -63,18 +63,12 @@ class OrderController extends Controller
         return $this->success(new OrderResource($order));
     }
 
-    public function update(UpdateOrderRequest $request, Order $order)
+  
+    public function destroy( $id)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Order $order)
-    {
+        $order = Order::findOrFail($id);
         $order->delete();
-        return 1;
+        return $this->success([], 'Order deleted succesfully', 204);
     }
 
 
