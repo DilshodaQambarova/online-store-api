@@ -28,20 +28,13 @@ class AttributeController extends Controller
         return $this->success($attribute);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Attribute $attribute)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateAttributeRequest $request, Attribute $attribute)
+    public function update(UpdateAttributeRequest $request,  $id)
     {
-        //
+        $attribute = Attribute::findOrFail($id);
+        $attribute->name = $request->name;
+        $attribute->save();
+        return $this->success($attribute, 'Attribute updated succesfully');
     }
 
     /**
