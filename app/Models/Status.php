@@ -12,4 +12,7 @@ class Status extends Model
     protected $fillable = [
         'name'
     ];
+    public function statusable(){
+        return $this->morphTo();
+    }
 }
