@@ -30,4 +30,7 @@ class Order extends Model
     public function paymentType(){
         return $this->belongsTo(PaymentType::class);
     }
+    public function status(){
+        return $this->morphOne(Status::class, 'statusable');
+    }
 }
