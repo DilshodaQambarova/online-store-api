@@ -25,8 +25,8 @@ class OrderController extends Controller
         protected ProductService $productService,
     )
     {
-        $this->middleware('auth:sanctum');
-        $this->authorizeResource(Order::class, 'order');
+        // $this->middleware('auth:sanctum');
+        // $this->authorizeResource(Order::class, 'order');
     }
 
 
@@ -63,7 +63,7 @@ class OrderController extends Controller
         return $this->success(new OrderResource($order));
     }
 
-  
+
     public function destroy( $id)
     {
         $order = Order::findOrFail($id);
