@@ -23,7 +23,7 @@ class UserSeeder extends Seeder
             'last_name' => 'Admin',
             'email' => 'qambarovadilshoda867@gmail.com',
             'verification_token' => uniqid(),
-            'phone' => fake()->phoneNumber(),
+            'phone' => preg_replace('/[^0-9+]/', '', fake()->phoneNumber()),
             'password' => bcrypt('admin123'),
             'email_verified_at' => now()
         ]);
