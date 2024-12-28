@@ -20,41 +20,17 @@ use Illuminate\Http\JsonResponse;
 
 class OrderController extends Controller
 {
-    public function __construct(
-        protected OrderService   $orderService,
-        protected ProductService $productService,
-    )
-    {
-        // $this->middleware('auth:sanctum');
-        // $this->authorizeResource(Order::class, 'order');
-    }
-
-
     public function index(): JsonResponse
     {
-        if (request()->has('status_id')) {
-            return $this->responsePagination(OrderResource::collection(auth()->user()->orders()->where('status_id', request('status_id'))->paginate(10)));
-        }
+
 
         return $this->responsePagination(OrderResource::collection(auth()->user()->orders()->paginate(10)));
     }
 
 
-    public function store(StoreOrderRequest $request): JsonResponse
+    public function store(StoreOrderRequest $request)
     {
-        // o'zgaruvchilani belgilash
-        list($sum, $products, $notFoundProducts, $address, $deliveryMethod) = $this->defineVariables($request);
 
-        // omborda product bor yo'qligiga tekshirish
-        list($sum, $products, $notFoundProducts) = $this->productService->checkForStock($request['products'], $sum, $products, $notFoundProducts);
-
-        // bor bo'lsa buyurtma yaratish
-        if ($notFoundProducts === [] && $products !== [] && $sum !== 0) {
-            $order = $this->orderService->saveOrder($deliveryMethod, $sum, $request, $address, $products);
-            return $this->success('order created', $order);
-        }
-
-        return $this->error('some products not found or does not have in inventory', 404);
     }
 
 
