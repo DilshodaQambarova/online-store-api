@@ -24,7 +24,8 @@ class UserSeeder extends Seeder
             'email' => 'qambarovadilshoda867@gmail.com',
             'verification_token' => uniqid(),
             'phone' => fake()->phoneNumber(),
-            'password' => bcrypt('admin123')
+            'password' => bcrypt('admin123'),
+            'email_verified_at' => now()
         ]);
         SendEmailJob::dispatch($user);
     }
