@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
             'first_name' => 'required|regex:/^[\pL\s\-\']+$/u',
             'last_name' => 'required|regex:/^[\pL\s\-\']+$/u',
             'email' => 'required|email|unique:users,email',
-            'phone' => 'required|numeric|digits_between:10,15',
+            'phone' => 'required|regex:/^\+?[0-9]{1,15}$/',
             'password' => 'required|min:6'
         ];
     }
