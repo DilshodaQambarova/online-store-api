@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserPaymentCard;
+use App\Repositories\PaymentCardRepository;
 use App\Http\Requests\StoreUserPaymentCardRequest;
 use App\Http\Requests\UpdateUserPaymentCardRequest;
 
 class UserPaymentCardController extends Controller
 {
+    protected PaymentCardRepository $cardRepository;
     public function index()
     {
         //
