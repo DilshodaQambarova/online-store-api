@@ -18,8 +18,9 @@ class UserPaymentCardController extends Controller
 
     public function store(StoreUserPaymentCardRequest $request)
     {
-        //
-    }
+        $this->cardRepository->savePaymentCard($request);
+
+        return $this->success([], 'Payment card created', 201);    }
 
     public function show(UserPaymentCard $userPaymentCard)
     {
