@@ -28,7 +28,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'description' => $request->description
         ]);
-        $product->status->name = 'New';
+        $product->status->name = $request->status;
         $product->status()->save();
         return $this->success($product, 'Product Created', 201);
     }
@@ -53,6 +53,8 @@ class ProductController extends Controller
         $product->price = $request->price;
         $product->description = $request->description;
         $product->save();
+        $product->status->name = $request->status;
+        $product->status()->save();
         return $this->success($product, 'Product updated');
     }
 
