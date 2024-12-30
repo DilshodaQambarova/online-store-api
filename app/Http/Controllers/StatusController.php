@@ -14,7 +14,7 @@ class StatusController extends Controller
     public function index()
     {
         $statuses = Status::all();
-        return $this->success($statuses);Ad
+        return $this->success($statuses);
     }
 
     public function store(StoreStatusRequest $request)
