@@ -44,4 +44,7 @@ class Product extends Model
         ];
         return $this;
     }
+    public function statuses(){
+        return $this->morphOne(Status::class, 'statusable');
+    }
 }
