@@ -25,7 +25,8 @@ class UpdateProductRequest extends FormRequest
             'category_id' => 'nullable|exists:categories,id',
             'name' => 'nullable',
             'description' => 'nullable|max:250',
-            'price' => 'nullable|decimal:1,900000000'
+            'price' => 'nullable|decimal:1,900000000',
+            'status' => 'nullable'
         ];
     }
 }
