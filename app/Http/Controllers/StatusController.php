@@ -23,14 +23,14 @@ class StatusController extends Controller
         $status = new Status();
         $status->name = $request->name;
         $status->save();
-        return $this->success($status, 'Status creatde successfully', 201);
+        return $this->success(new StatusResource($status), 'Status creatde successfully', 201);
     }
 
 
     public function show( $id)
     {
         $status = Status::findOrFail($id);
-        return $this->success($status);
+        return $this->success(new StatusResource($status));
     }
 
 
