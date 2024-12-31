@@ -39,7 +39,7 @@ class StatusController extends Controller
         $status = Status::findOrFail($id);
         $status->name = $request->name;
         $status->save();
-        return $this->success($status, 'Status updated successfully');
+        return $this->success(new StatusResource($status), 'Status updated successfully');
     }
 
     /**
