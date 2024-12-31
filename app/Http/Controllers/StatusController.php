@@ -32,20 +32,13 @@ class StatusController extends Controller
         return $this->success($status);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Status $status)
-    {
-        //
-    }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(UpdateStatusRequest $request, Status $status)
+    public function update(UpdateStatusRequest $request,  $id)
     {
-        //
+        $status = Status::findOrFail($id);
+        $status->name = $request->name;
+        $status->save();
+        return $this->success($status, 'Status updated successfully');
     }
 
     /**
