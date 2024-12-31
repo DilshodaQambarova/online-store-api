@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Status;
+use App\Http\Resources\StatusResource;
 use App\Http\Requests\StoreStatusRequest;
 use App\Http\Requests\UpdateStatusRequest;
 
@@ -14,7 +15,7 @@ class StatusController extends Controller
     public function index()
     {
         $statuses = Status::all();
-        return $this->success($statuses);
+        return $this->success(StatusResource::collection($statuses));
     }
 
     public function store(StoreStatusRequest $request)
