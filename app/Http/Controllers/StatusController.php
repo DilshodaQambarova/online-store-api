@@ -44,8 +44,10 @@ class StatusController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Status $status)
+    public function destroy( $id)
     {
-        //
+        $status = Status::findOrFail($id);
+        $status->delete();
+        return $this->success([], 'Status deleted successfully', 204);
     }
 }
