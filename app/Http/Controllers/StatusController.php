@@ -26,9 +26,10 @@ class StatusController extends Controller
     }
 
 
-    public function show(Status $status)
+    public function show( $id)
     {
-        //
+        $status = Status::findOrFail($id);
+        return $this->success($status);
     }
 
     /**
