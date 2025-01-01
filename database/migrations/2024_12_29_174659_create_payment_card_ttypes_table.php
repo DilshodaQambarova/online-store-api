@@ -13,6 +13,9 @@ return new class extends Migration
     {
         Schema::create('payment_card_ttypes', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('code');
+            $table->string('icon')->nullable();
             $table->timestamps();
         });
     }
