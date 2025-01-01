@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\PaymentCardType;
 use Illuminate\Database\Seeder;
 
 class PaymentCardTypeSeeder extends Seeder
@@ -12,6 +12,30 @@ class PaymentCardTypeSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $paymentCardTypes = [
+            [
+                'name' => 'Uzum',
+                'code' => 'uzum',
+                'icon' => 'uzum'
+            ],
+            [
+                'name' => 'UzCard',
+                'code' => 'uzcard',
+                'icon' => 'uzcard'
+            ],
+            [
+                'name' => 'Humo',
+                'code' => 'humo',
+                'icon' => 'humo'
+            ],
+            [
+                'name' => 'Visa',
+                'code' => 'visa',
+                'icon' => 'visa'
+            ],
+
+        ];
+
+        PaymentCardType::insert($paymentCardTypes);
     }
 }
