@@ -7,6 +7,8 @@ use App\Models\Category;
 use App\Http\Resources\ProductResource;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
+use ProductFilter;
+use Request;
 
 class ProductController extends Controller
 {
@@ -66,5 +68,10 @@ class ProductController extends Controller
         }
         $product->delete();
         return $this->success([], 'Product deleted', 204);
+    }
+    public function productFilter(Request $request){
+        $filter = new ProductFilter();
+        $query = Product::query();
+        $filteredProducts = $filter->apply($request->all(),$query);
     }
 }
