@@ -22,7 +22,12 @@ class AuthController extends Controller
         $user->password = bcrypt($request->password);
         $user->verification_token = uniqid();
         $user->save();
-
+        if($request->hasFile('avatar')){
+            $uploadedAvatar = $this->uploadPhoto($request->file('avatar'));
+            $user->avatar()->create([
+                'path' => $uploadedAvatar,
+            ]);
+        }
         SendEmailJob::dispatch($user);
 
         return $this->success([],'User registered successfully', 201);
@@ -39,6 +44,7 @@ class AuthController extends Controller
         return $this->success($token, 'User logged successfully');
     }
     public function logout(Request $request){
+        $this->deletePhoto($request->user()->avatar->path);
         $request->user()->tokens()->delete();
         return $this->success([], 'User logged out successfully', 204);
     }
