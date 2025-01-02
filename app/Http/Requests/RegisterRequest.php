@@ -26,7 +26,8 @@ class RegisterRequest extends FormRequest
             'last_name' => 'required|regex:/^[\pL\s\-\']+$/u',
             'email' => 'required|email|unique:users,email',
             'phone' => 'required|regex:/^\+?[0-9]{1,15}$/',
-            'password' => 'required|min:6'
+            'password' => 'required|min:6',
+            'avatar' => 'required|mimes:png,jpg|max:2048'
         ];
     }
 }
