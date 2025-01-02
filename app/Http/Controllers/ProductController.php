@@ -74,5 +74,6 @@ class ProductController extends Controller
         $filter = new ProductFilter();
         $query = Product::query();
         $filteredProducts = $filter->apply($request->all(),$query);
+        return $this->responsePagination($filteredProducts, ProductResource::collection($filteredProducts));
     }
 }
