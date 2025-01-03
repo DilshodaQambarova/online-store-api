@@ -22,9 +22,14 @@ class CategoryController extends Controller
     {
         $category = new Category();
         $category->name = $request->name;
-        $category->icon = $request->icon;
         $category->order = $request->order;
         $category->save();
+        $uploadedIcon = $this->uploadPhoto($request->hasFile('icon'));
+        $category->icon()->create(
+            [
+                'path' => $uploadedIcon
+            ]
+        );
         return $this->success(new CategoryResource($category), 'Category created successfully', 201);
     }
 
