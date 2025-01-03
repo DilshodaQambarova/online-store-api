@@ -75,6 +75,7 @@ class CategoryController extends Controller
         if(!$category){
             return $this->error('Category not found', 404);
         }
+        $this->deletePhoto($category->icon->path);
         $category->delete();
         return $this->success([], 'Category deleted successfully', 204);
     }
