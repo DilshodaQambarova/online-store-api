@@ -33,6 +33,10 @@ class ProductController extends Controller
         ]);
         $product->status->name = $request->status;
         $product->status()->save();
+        $uploadedImage = $this->uploadPhoto($request->hasFile('images'));
+        $product->images()->create([
+            'path' => $uploadedImage
+        ]);
         return $this->success($product, 'Product Created', 201);
     }
 
