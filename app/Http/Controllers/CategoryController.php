@@ -52,9 +52,17 @@ class CategoryController extends Controller
             return $this->error('Category not found', 404);
         }
         $category->name = $request->name;
-        $category->icon = $request->icon;
         $category->order = $request->order;
         $category->save();
+        if($request->hasFile('icon')){
+            if($category->icon->path){
+                $this->deletePhoto($category->icon->path);
+            }
+            $updatedIcon = $this->uploadPhoto($request->file('icon'));
+            $category->icon()->create([
+                'path' => $updatedIcon
+            ]);
+        }
         return $this->success($category, 'Category updated');
     }
 
