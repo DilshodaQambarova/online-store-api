@@ -47,4 +47,7 @@ class Product extends Model
     public function status(){
         return $this->morphOne(Status::class, 'statusable');
     }
+    public function images(){
+        return $this->morphMany(Attachment::class, 'attachmentable');
+    }
 }
