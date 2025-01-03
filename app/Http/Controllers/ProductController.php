@@ -62,6 +62,15 @@ class ProductController extends Controller
         $product->save();
         $product->status->name = $request->status;
         $product->status()->save();
+        if($request->hasFile('images')){
+            if($product->images->path){
+                $this->deletePhoto($product->images->path);
+            }
+            $updatedImages = $this->uploadPhoto($request->file('images'));
+            $product->images()->create([
+                'path' => $updatedImages
+            ]);
+        }
         return $this->success($product, 'Product updated');
     }
 
