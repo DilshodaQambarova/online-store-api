@@ -80,6 +80,7 @@ class ProductController extends Controller
         if(!$product){
             return $this->error('Product not found', 404);
         }
+        $this->deletePhoto($product->images->path);
         $product->delete();
         return $this->success([], 'Product deleted', 204);
     }
