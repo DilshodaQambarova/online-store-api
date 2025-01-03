@@ -25,4 +25,7 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+    public function icon(){
+        return $this->morphOne(Attachment::class, 'attachmentable');
+    }
 }
