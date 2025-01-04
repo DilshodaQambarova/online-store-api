@@ -20,26 +20,5 @@ class CategoryProductController extends Controller
         }
         return $this->responsePagination($products, new CategoryResource($category->load('products')));
     }
-    public function store(Request $request){
-        $category = new Category();
-        $category->name = $request->name;
-        $category->save();
-        return $this->success(new CategoryResource($category), 'Category created successfully', 201);
-    }
-    public function update(Request $request, $id){
-        $category = Category::findOrFail($id);
-        $category->name = $request->name;
-        $category->save();
-        return $this->success(new CategoryResource($category), 'Category update successfully');
-    }
-    public function show($id){
-        $category = Category::with('products.stocks')->findOrFail($id);
-        return $this->success($category);
-
-    }
-    public function destroy($id){
-        $category = Category::findOrFail($id);
-        $category->delete();
-        return $this->success([], 'Category deleted successfully', 204);
-    }
+    
 }
