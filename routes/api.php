@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DeliveryMethodController;
+use App\Http\Controllers\PaymentCardTypeController;
 use App\Http\Controllers\PaymentTypeController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserAddressController;
@@ -24,6 +25,7 @@ Route::middleware('auth:sanctum')->group(function(){
         '/orders' => OrderController::class,
         '/delivery-methods' => DeliveryMethodController::class,
         '/user-payment-cards' => UserPaymentCardController::class,
+        '/payment-card-type' => PaymentCardTypeController::class,
         '/payment-types' => PaymentTypeController::class,
         '/user-addresses' => UserAddressController::class
     ]);
