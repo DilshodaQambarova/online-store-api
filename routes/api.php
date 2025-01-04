@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DeliveryMethodController;
 use App\Http\Controllers\PaymentTypeController;
+use App\Http\Controllers\RoleController;
 use App\Http\Controllers\UserAddressController;
 use App\Http\Controllers\UserPaymentCardController;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ Route::middleware('auth:sanctum')->group(function(){
     Route::get('/user', [AuthController::class, 'getUser']);
     Route::apiResources([
         '/categories' => CategoryController::class,
+        '/roles' => RoleController::class,
         '/products' => ProductController::class,
         '/favorites' => FavoriteController::class,
         '/orders' => OrderController::class,
