@@ -27,6 +27,7 @@ Route::middleware('auth:sanctum')->group(function(){
     ]);
     Route::get('/categories/{id}/products', [CategoryProductController::class, 'index']);
     Route::get('/logout', [AuthController::class, 'logout']);
+    Route::get('/search', [ProductController::class, 'search']);
 });
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
