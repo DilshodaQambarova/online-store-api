@@ -90,4 +90,11 @@ class ProductController extends Controller
         $filteredProducts = $filter->apply($request->all(),$query);
         return $this->responsePagination($filteredProducts, ProductResource::collection($filteredProducts));
     }
+    public function search(Request $request){
+        $filter = new ProductFilter();
+        $query = Product::query();
+        $filteredProducts = $filter->apply($request->all(),$query);
+        $searchedProducts = $filteredProducts->where('name', 'like', $request->q);
+        return $this->responsePagination($searchedProducts, ProductResource::Collestion($searchedProducts));
+    }
 }
