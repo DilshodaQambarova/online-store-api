@@ -2,11 +2,13 @@
 
 class ProductFilter {
     public function apply($filters = [], $query){
-        if($filters['name']){
-            $query->where('name', $filters['name']);
-        }
-        if($filters['price']){
-            $query->where('price', $filters['price']);
+        foreach($filters as $filter){
+            if($filter['name']){
+                $query->where('name', $filter['name']);
+            }
+            if($filter['price']){
+                $query->where('price', $filter['price']);
+            }
         }
         return $query;
     }
