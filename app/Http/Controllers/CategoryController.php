@@ -30,7 +30,7 @@ class CategoryController extends Controller
                 'path' => $uploadedIcon
             ]
         );
-        return $this->success(new CategoryResource($category), 'Category created successfully', 201);
+        return $this->success(new CategoryResource($category), __('successes.category.created'), 201);
     }
 
     /**
@@ -38,19 +38,13 @@ class CategoryController extends Controller
      */
     public function show($id)
     {
-        $category = Category::find($id);
-        if(!$category){
-            return $this->error('Category not found', 404);
-        }
+        $category = Category::findOrFail($id);
         return $this->success($category);
     }
 
     public function update(UpdateCategoryRequest $request, $id)
     {
-        $category = Category::find($id);
-        if(!$category){
-            return $this->error('Category not found', 404);
-        }
+        $category = Category::findOrFail($id);
         $category->name = $request->name;
         $category->order = $request->order;
         $category->save();
@@ -63,7 +57,7 @@ class CategoryController extends Controller
                 'path' => $updatedIcon
             ]);
         }
-        return $this->success($category, 'Category updated');
+        return $this->success($category, 'successes.category.updated');
     }
 
     /**
@@ -71,12 +65,9 @@ class CategoryController extends Controller
      */
     public function destroy($id)
     {
-        $category = Category::find($id);
-        if(!$category){
-            return $this->error('Category not found', 404);
-        }
+        $category = Category::findOrFail($id);
         $this->deletePhoto($category->icon->path);
         $category->delete();
-        return $this->success([], 'Category deleted successfully', 204);
+        return $this->success([], __('successes.category.deleted'), 204);
     }
 }
