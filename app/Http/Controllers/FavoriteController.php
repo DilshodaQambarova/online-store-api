@@ -8,7 +8,7 @@ use App\Http\Resources\ProductResource;
 
 class FavoriteController extends Controller
 {
-   
+
     public function index()
     {
         $favorites = Auth()->user()->favorites()->paginate(10);
@@ -23,24 +23,21 @@ class FavoriteController extends Controller
         $id = $request->product_id;
         $favorites = Auth::user()->favorites();
         $favorites->attach($id);
-        return $this->success([], 'Product added to favorites', 201);
+        return $this->success([], __('successes.favorite.added'), 201);
     }
 
     public function show(string $id)
     {
-       $favorite = Auth::user()->favorites()->find($id);
-       if(!$favorite){
-        return $this->error('Product not found', 404);
-       }
+       $favorite = Auth::user()->favorites()->findOrFail($id);
        return $this->success(new ProductResource($favorite));
     }
 
     public function destroy(string $id)
     {
         if(!Auth::user()->hasFavorite($id)){
-            return $this->error('Product not found in favorites', 404);
+            return $this->error(__('successes.favorite.not_found'), 404);
         }
         Auth::user()->favorites()->detach($id);
-        return $this->success([], 'Product remove from favorites', 204);
+        return $this->success([], __('successes.favorite.removed'), 204);
     }
 }
