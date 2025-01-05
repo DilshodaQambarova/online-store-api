@@ -23,7 +23,7 @@ class PaymentTypeController extends Controller
         $paymentType = new PaymentType();
         $paymentType->name = $request->name;
         $paymentType->save();
-        return $this->success(new PaymentTypeResource($paymentType), 'Payment type created successfully', 201);
+        return $this->success(new PaymentTypeResource($paymentType), __('successes.paymentType.created'), 201);
     }
 
     public function show($id)
@@ -38,7 +38,7 @@ class PaymentTypeController extends Controller
         $paymentType->name = $request->name;
         $paymentType->save();
 
-        return $this->success(new PaymentTypeResource($paymentType), 'Payment type updated successfully');
+        return $this->success(new PaymentTypeResource($paymentType), __('successes.paymentType.updated'));
 
     }
 
@@ -49,6 +49,6 @@ class PaymentTypeController extends Controller
     {
         $paymentType = PaymentType::findOrFail($id);
         $paymentType->delete();
-        return $this->success([], 'Payment type deleted successfully', 204);
+        return $this->success([], __('successes.paymentType.deleted'), 204);
     }
 }
