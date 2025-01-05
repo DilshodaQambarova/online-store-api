@@ -51,12 +51,12 @@ class OrderController extends Controller
         // bor bo'lsa buyurtma yaratish
         if ($notFoundProducts === [] && $products !== [] && $sum !== 0) {
             $order = $this->orderService->saveOrder($deliveryMethod, $sum, $request, $address, $products);
-            return $this->success('order created', $order);
+            return $this->success(__('successes.order.created'));
+
         }
-
-        return $this->error('some products not found or does not have in inventory', 404);
+        return $this->error(__('errors.order.not_found
+        '), 404);
     }
-
 
     public function show(Order $order): JsonResponse
     {
@@ -68,7 +68,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail($id);
         $order->delete();
-        return $this->success([], 'Order deleted succesfully', 204);
+        return $this->success([], __('successes.order.deleted'), 204);
     }
 
 
