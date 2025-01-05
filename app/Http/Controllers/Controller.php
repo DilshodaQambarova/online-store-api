@@ -9,7 +9,7 @@ abstract class Controller
     protected function success($data = [], string $message = 'Operation successful', int $status = 200)
     {
         return response()->json([
-            'status' => 'success',
+            'status' => __('successes.success'),
             'message' => $message,
             'data' => $data,
         ], $status);
@@ -34,7 +34,7 @@ abstract class Controller
         }
 
         return response()->json([
-            'status' => 'success',
+            'status' =>  __('successes.success'),
             'message' => $message,
             'data' => $data,
             'pagination' => $pagination,
@@ -43,7 +43,7 @@ abstract class Controller
     protected function error(string $message = 'An error occurred', int $status = 400)
     {
         return response()->json([
-            'status' => 'error',
+            'status' =>  __('errors.error'),
             'message' => $message,
         ], $status);
     }
