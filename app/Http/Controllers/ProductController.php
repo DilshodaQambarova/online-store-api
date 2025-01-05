@@ -24,7 +24,7 @@ class ProductController extends Controller
     {
         $category = Category::find($request->category_id);
         if(!$category){
-            return $this->error('Category not found', 404);
+            return $this->error(__('errors.category.not_found'), 404);
         }
         $product = $category->products()->create([
             'category_id' => $category->id,
@@ -37,24 +37,18 @@ class ProductController extends Controller
         $product->images()->create([
             'path' => $uploadedImage
         ]);
-        return $this->success($product, 'Product Created', 201);
+        return $this->success($product, __('successes.product.created'), 201);
     }
 
     public function show($id)
     {
-        $product = Product::with('stocks', 'category')->find($id);
-        if(!$product){
-            return $this->error('Product not found', 404);
-        }
+        $product = Product::with('stocks', 'category')->findOrFail($id);
         return $this->success(new ProductResource($product));
     }
 
     public function update(UpdateProductRequest $request, $id)
     {
-        $product = Product::find($id);
-        if(!$product){
-            return $this->error('Product not found', 404);
-        }
+        $product = Product::findOrFail($id);
         $product->category_id = $request->category_id;
         $product->name = $request->name;
         $product->price = $request->price;
@@ -71,18 +65,15 @@ class ProductController extends Controller
                 'path' => $updatedImages
             ]);
         }
-        return $this->success($product, 'Product updated');
+        return $this->success($product, __('successes.product.updated'));
     }
 
     public function destroy($id)
     {
-        $product = Product::find($id);
-        if(!$product){
-            return $this->error('Product not found', 404);
-        }
+        $product = Product::findOrFail($id);
         $this->deletePhoto($product->images->path);
         $product->delete();
-        return $this->success([], 'Product deleted', 204);
+        return $this->success([], __('successes.product.deleted'), 204);
     }
     public function productFilter(FilterProductRequest $request){
         $filter = new ProductFilter();
