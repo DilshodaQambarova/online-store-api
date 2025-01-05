@@ -15,10 +15,7 @@ class CategoryProductController extends Controller
             ->first();
 
         $products = $category->products()->paginate(10);
-        if (!$category || !$products) {
-            return $this->error('Not found', 404);
-        }
         return $this->responsePagination($products, new CategoryResource($category->load('products')));
     }
-    
+
 }
