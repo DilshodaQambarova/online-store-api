@@ -25,7 +25,7 @@ class DeliveryMethodController extends Controller
         $deliveryMethod->estimated_time = $request->estimated_time;
         $deliveryMethod->price = $request->price;
         $deliveryMethod->save();
-        return $this->success(new DeliveryMethodResource( $deliveryMethod), 'Delivery method created successfully', 201);
+        return $this->success(new DeliveryMethodResource( $deliveryMethod), __('successes.deliveryMethod.created'), 201);
     }
 
 
@@ -43,13 +43,13 @@ class DeliveryMethodController extends Controller
         $deliveryMethod->estimated_time = $request->estimated_time;
         $deliveryMethod->price = $request->price;
         $deliveryMethod->save();
-        return $this->success(new DeliveryMethodResource( $deliveryMethod), 'Delivery method updated successfully');
+        return $this->success(new DeliveryMethodResource( $deliveryMethod), __('successes.deliveryMethod.updated'));
     }
 
     public function destroy( $id)
     {
         $deliveryMethod = DeliveryMethod::findOrFail($id);
         $deliveryMethod->delete();
-        return $this->success([], 'Delivery method deleted successfully', 204);
+        return $this->success([], __('successes.deliveryMethod.deleted'), 204);
     }
 }
