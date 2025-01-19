@@ -26,8 +26,7 @@ class OrderRepository extends Repository
             $orders->whereBetween('created_at', [Carbon::parse($request->created_at)->startOfDay(), Carbon::parse($request->created_at)->endOfDay()]);
         if ($request->has('from') && $request->has('to'))
             $orders->whereBetween('created_at', [$request->from, Carbon::parse($request->to)->endOfDay()]);
-        /* TODO implement text column search */
-        //if ($request->has('region')){}
+  
         if ($request->has('order_by'))
             $orders->orderBy($request->order_by);
 
